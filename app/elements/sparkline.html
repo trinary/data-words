@@ -1,14 +1,24 @@
 <script>
+
+  var drawLine = function(values, element) {
+    var path = "M0,0 L10,10 L40,12 L60,20";
+    element.innerHTML = '<path d="' + path + '"/>';
+  }
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
-        var t = document.createElement('svg')
+        console.log("created.value");
+        var t = document.createElement('svg');
+        t.setAttribute("width", "60px")
+        t.setAttribute("height", "20px")
+        drawLine([10,20,30], t);
         this.createShadowRoot().appendChild(t);
       }
     }
   });
 
-  var spark = document.register('x-sparkline',{
+  console.log("registering");
+  var Spark = document.register('x-sparkline',{
     prototype: sparkProto
   });
 </script>
