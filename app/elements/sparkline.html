@@ -1,22 +1,9 @@
-<template id="sparktemplate">
-  <style>
-    .sparkline {
-      stroke: #ccc;
-      stroke-width: 1px;
-      fill: none;
-    }
-  </style>
-  <svg></svg>
-</template>
-
 <script>
-  var importDoc = window.document.currentScript.ownerDocument;
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
-        var t = importDoc.querySelector('#sparktemplate');
-        console.log(t);
-        this.createShadowRoot().appendChild(t.content.cloneNode(true));
+        var t = document.createElement('svg')
+        this.createShadowRoot().appendChild(t);
       }
     }
   });
