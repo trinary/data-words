@@ -10,11 +10,11 @@
 </template>
 
 <script>
-  var importDoc = this.currentScript.ownerDocument;
+  var importDoc = window.document.currentScript.ownerDocument;
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
-        var t = importDoc.querySelector('template');
+        var t = importDoc.querySelector('#sparktemplate');
         console.log(t);
         this.createShadowRoot().appendChild(t.content.cloneNode(true));
       }
