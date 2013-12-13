@@ -2,17 +2,18 @@
 
   var drawLine = function(values, element) {
     var path = "M0,0 L10,10 L40,12 L60,20";
-    element.innerHTML = '<path d="' + path + '"/>';
+    element.innerHTML = '<path fill="none" stroke="#ccc" stroke-width="1px" d="' + path + '"/>';
   }
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
         console.log("created.value");
         var t = document.createElement('svg');
-        t.setAttribute("width", "600px")
-        t.setAttribute("height", "200px")
+        t.setAttribute("width", "80px")
+        t.setAttribute("height", "20px")
         drawLine([10,20,30], t);
-        this.createShadowRoot().appendChild(t);
+        //this.createShadowRoot().appendChild(t);
+        this.innerHTML = t.outerHTML;
       }
     }
   });
