@@ -9,15 +9,14 @@
       value: function() {
         console.log("created.value");
         var t = document.createElement('svg');
-        t.setAttribute("width", "60px")
-        t.setAttribute("height", "20px")
+        t.setAttribute("width", "600px")
+        t.setAttribute("height", "200px")
         drawLine([10,20,30], t);
         this.createShadowRoot().appendChild(t);
       }
     }
   });
 
-  console.log("registering");
   var Spark = document.register('x-sparkline',{
     prototype: sparkProto
   });
