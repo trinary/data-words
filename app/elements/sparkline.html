@@ -1,22 +1,47 @@
 <script>
+  Array.prototype.max = function(){
+    return Math.max.apply({},this)
+  }
 
-  var drawLine = function(values, element) {
-    var path = "M0,0 L10,10 L40,12 L60,20";
-    element.innerHTML = '<path fill="none" stroke="#ccc" stroke-width="1px" d="' + path + '"/>';
+  Array.prototype.min = function(){
+    return Math.min.apply({},this)
+  }
+
+  var scale = function(domain, range) {
+    return function(v) { 
+      console.log(v,(range[1] - range[0]), (domain[1] - domain[0]), (range[0] - domain[0]));
+      return v * ((range[1] - range[0]) / (domain[1] - domain[0])) + (range[0] - domain[0]);
+    }
+  }
+  var pathString = function(values, width, height) {
+    var space = width / values.length,
+        y = scale([values.min(), values.max()], [height,0]);
+    console.log(space, values.map(function(d) { return y(d);}));
   }
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
-        console.log("created.value");
-        var t = document.createElement('svg');
-        t.setAttribute("width", "80px")
-        t.setAttribute("height", "20px")
-        drawLine([10,20,30], t);
+        var t = document.createElement('svg'),
+          path = "",
+          w,h,data;
+          w = this.getAttribute("width") || 80;
+          h = this.getAttribute("height") || 20;
+          data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
+          console.log(data);
+        
+        path = pathString(data, w, h);
         //this.createShadowRoot().appendChild(t);
         this.innerHTML = t.outerHTML;
       }
     }
   });
+
+  Object.defineProperty(sparkProto, "width", {value: 80});
+  Object.defineProperty(sparkProto, "height", {value: 20});
+  Object.defineProperty(sparkProto, "data", {value : "",
+                                              writable : true,
+                                              enumerable : true,
+                                              configurable : true});
 
   var Spark = document.register('x-sparkline',{
     prototype: sparkProto
