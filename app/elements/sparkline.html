@@ -17,7 +17,7 @@
   var pathString = function(values, width, height) {
     var space = width / values.length,
         y = scale([values.min(), values.max()], [height,0]);
-        return "M0,0" + values.map(function(d,i) { return 'L' + y(d) + ',' + (space*i);}).join(' ');
+    return "M0," + height + " "  + values.map(function(d,i) { return 'L' + (space*i) + ',' + y(d)}).join(' ');
   }
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
@@ -30,7 +30,7 @@
           data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
         
         path = pathString(data, w, h);
-        t.innerHTML = '<path d="' + path + '"/>';
+        t.innerHTML = '<path fill="none" stroke="#333" d="' + path + '"/>';
         //this.createShadowRoot().appendChild(t);
         this.innerHTML = t.outerHTML;
       }
