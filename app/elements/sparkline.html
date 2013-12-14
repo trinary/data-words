@@ -9,14 +9,15 @@
 
   var scale = function(domain, range) {
     return function(v) { 
-      console.log(v,(range[1] - range[0]), (domain[1] - domain[0]), (range[0] - domain[0]));
-      return v * ((range[1] - range[0]) / (domain[1] - domain[0])) + (range[0] - domain[0]);
+      var s = ((range[1] - range[0]) / (domain[1] - domain[0]))
+      return (v * s) + (range[0] - (s * domain[0]));
     }
   }
+
   var pathString = function(values, width, height) {
     var space = width / values.length,
         y = scale([values.min(), values.max()], [height,0]);
-    console.log(space, values.map(function(d) { return y(d);}));
+        return "M0,0" + values.map(function(d,i) { return 'L' + y(d) + ',' + (space*i);}).join(' ');
   }
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
@@ -27,9 +28,9 @@
           w = this.getAttribute("width") || 80;
           h = this.getAttribute("height") || 20;
           data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
-          console.log(data);
         
         path = pathString(data, w, h);
+        t.innerHTML = '<path d="' + path + '"/>';
         //this.createShadowRoot().appendChild(t);
         this.innerHTML = t.outerHTML;
       }
