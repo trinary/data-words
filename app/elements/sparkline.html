@@ -28,6 +28,8 @@
           h = this.getAttribute("height") || 20,
           data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
         
+        t.setAttribute("width", w);
+        t.setAttribute("height", h);
         this.setAttribute("style","display: inline;");
         path = pathString(data, w, h);
         t.innerHTML = '<path fill="none" stroke="#333" d="' + path + '"/>';
