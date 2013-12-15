@@ -24,11 +24,11 @@
       value: function() {
         var t = document.createElement('svg'),
           path = "",
-          w,h,data;
-          w = this.getAttribute("width") || 80;
-          h = this.getAttribute("height") || 20;
+          w = this.getAttribute("width") || 80,
+          h = this.getAttribute("height") || 20,
           data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
         
+        this.setAttribute("style","display: inline;");
         path = pathString(data, w, h);
         t.innerHTML = '<path fill="none" stroke="#333" d="' + path + '"/>';
         //this.createShadowRoot().appendChild(t);
@@ -44,7 +44,7 @@
                                               enumerable : true,
                                               configurable : true});
 
-  var Spark = document.register('x-sparkline',{
+  var Spark = document.register('dw-sparkline',{
     prototype: sparkProto
   });
 </script>
