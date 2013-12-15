@@ -1,12 +1,4 @@
 <script>
-  Array.prototype.max = function(){
-    return Math.max.apply({},this)
-  }
-
-  Array.prototype.min = function(){
-    return Math.min.apply({},this)
-  }
-
   var scale = function(domain, range) {
     return function(v) { 
       var s = ((range[1] - range[0]) / (domain[1] - domain[0]))
@@ -16,7 +8,7 @@
 
   var pathString = function(values, width, height) {
     var space = width / values.length,
-        y = scale([values.min(), values.max()], [height,0]);
+        y = scale([Math.min.apply({},values), Math.max.apply({},values)], [height,0]);
     return "M0," + height + " "  + values.map(function(d,i) { return 'L' + (space*i) + ',' + y(d)}).join(' ');
   }
   var sparkProto = Object.create(HTMLElement.prototype, {
