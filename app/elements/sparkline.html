@@ -16,6 +16,7 @@
       value: function() {
         var t = document.createElement('svg'),
           path = "",
+          root = this.createShadowRoot(),
           w = this.getAttribute("width") || 80,
           h = this.getAttribute("height") || 20,
           data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
@@ -25,8 +26,7 @@
         this.setAttribute("style","display: inline;");
         path = pathString(data, w, h);
         t.innerHTML = '<path fill="none" stroke="#333" d="' + path + '"/>';
-        //this.createShadowRoot().appendChild(t);
-        this.innerHTML = t.outerHTML;
+        root.innerHTML = t.outerHTML;
       }
     }
   });
