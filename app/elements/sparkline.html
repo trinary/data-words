@@ -1,3 +1,22 @@
+<template id="sparkline">
+  <style>
+    :host {
+      display: inline;
+      width: 80px;
+      height: 20px;
+    }
+    svg {
+      width: 80px;
+      height: 20px;
+    }
+    .line {
+      fill: none;
+      stroke: #333;
+    }
+  </style>
+  <svg><path class="line"></path></svg>
+</template>
+
 <script>
   var scale = function(domain, range) {
     return function(v) { 
@@ -5,6 +24,10 @@
       return (v * s) + (range[0] - (s * domain[0]));
     }
   }
+
+  // lol :(
+  var thisDoc = this.HTMLImports.importer.documents["http://localhost:9000/elements/sparkline.html"];
+  console.log(thisDoc);
 
   var pathString = function(values, width, height) {
     var space = width / values.length,
@@ -14,19 +37,14 @@
   var sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
-        var t = document.createElement('svg'),
+        var t = thisDoc.querySelector('#sparkline').content,
           path = "",
           root = this.createShadowRoot(),
-          w = this.getAttribute("width") || 80,
-          h = this.getAttribute("height") || 20,
           data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
         
-        t.setAttribute("width", w);
-        t.setAttribute("height", h);
-        this.setAttribute("style","display: inline;");
-        path = pathString(data, w, h);
-        t.innerHTML = '<path fill="none" stroke="#333" d="' + path + '"/>';
-        root.innerHTML = t.outerHTML;
+        var line = t.querySelector(".line");
+        line.setAttribute("d", pathString(data, 80, 20));
+        root.appendChild(t);
       }
     }
   });
