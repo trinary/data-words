@@ -40,19 +40,18 @@
     createdCallback: {
       value: function() {
         var t = thisDoc.querySelector('#sparkline').content,
-          path = "",
-          root = this.createShadowRoot(),
-          data = this.getAttribute("data").split(/\s+/).map(function(d) { return parseFloat(d)});
-        
-        var line = t.querySelector(".line");
+          path = "", root = this.createShadowRoot(), line,
+          data = this.getAttribute("data").split(/\s+/).map(function(d) {
+            return parseFloat(d);
+          });
+
+        line = t.querySelector(".line");
         line.setAttribute("d", pathString(data, 80, 20));
         root.appendChild(t);
       }
     }
   });
 
-  Object.defineProperty(sparkProto, "width", {value: 80});
-  Object.defineProperty(sparkProto, "height", {value: 20});
   Object.defineProperty(sparkProto, "data", {value : "",
                                               writable : true,
                                               enumerable : true,
