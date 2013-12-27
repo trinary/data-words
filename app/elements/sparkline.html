@@ -21,9 +21,10 @@
       var s = ((range[1] - range[0]) / (domain[1] - domain[0]))
       return (v * s) + (range[0] - (s * domain[0]));
     }
-  }, thisDoc, pathString, sparkProto;
+  }, thisDoc, pathString, sparkProto, Spark;
 
-  // lol :(
+  console.log("uh what", document.currentScript);
+
   for (doc in this.HTMLImports.importer.documents) {
     if (doc.match(/\/elements\/sparkline\.html$/)) {
       thisDoc = this.HTMLImports.importer.documents[doc];
@@ -35,7 +36,7 @@
         y = scale([Math.min.apply({},values), Math.max.apply({},values)], [height,0]);
     return "M0," + height + " "  + values.map(function(d,i) { return 'L' + (space*i) + ',' + y(d)}).join(' ');
   }
-  var sparkProto = Object.create(HTMLElement.prototype, {
+  sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
         var t = thisDoc.querySelector('#sparkline').content,
@@ -57,7 +58,7 @@
                                               enumerable : true,
                                               configurable : true});
 
-  var Spark = document.register('dw-sparkline',{
+  Spark = document.register('dw-sparkline',{
     prototype: sparkProto
   });
 </script>
