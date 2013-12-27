@@ -23,13 +23,17 @@
       var s = ((range[1] - range[0]) / (domain[1] - domain[0]))
       return (v * s) + (range[0] - (s * domain[0]));
     }
-  }
+  }, thisDoc, pathString, sparkProto;
 
   // lol :(
-  var thisDoc = this.HTMLImports.importer.documents["http://localhost:9000/elements/sparkline.html"];
+  for (doc in this.HTMLImports.importer.documents) {
+    if (doc.match(/\/elements\/sparkline\.html$/)) {
+      thisDoc = this.HTMLImports.importer.documents[doc];
+    }
+  }
   console.log(thisDoc);
 
-  var pathString = function(values, width, height) {
+  pathString = function(values, width, height) {
     var space = width / values.length,
         y = scale([Math.min.apply({},values), Math.max.apply({},values)], [height,0]);
     return "M0," + height + " "  + values.map(function(d,i) { return 'L' + (space*i) + ',' + y(d)}).join(' ');
