@@ -23,8 +23,6 @@
     }
   }, thisDoc, pathString, sparkProto, Spark;
 
-  console.log("uh what", document.currentScript);
-
   for (doc in this.HTMLImports.importer.documents) {
     if (doc.match(/\/elements\/sparkline\.html$/)) {
       thisDoc = this.HTMLImports.importer.documents[doc];
@@ -32,7 +30,7 @@
   }
 
   pathString = function(values, width, height) {
-    var space = width / values.length,
+    var space = width / (values.length - 1),
         y = scale([Math.min.apply({},values), Math.max.apply({},values)], [height,0]);
     return "M0," + height + " "  + values.map(function(d,i) { return 'L' + (space*i) + ',' + y(d)}).join(' ');
   }
