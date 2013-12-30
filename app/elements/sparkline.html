@@ -24,8 +24,9 @@
   }, thisDoc, pathString, sparkProto, Spark;
 
   // TODO: _currentScript is Polymer-polyfill only.
-  // It implements something that breaks the published
-  // spec, where currentScript in imported docs is null.
+  // The polyfill breaks the published spec, where currentScript 
+  // in imported docs is always null.
+  // This replaces a really terrible use of doc.HTMLImports.documents
   // http://w3c.github.io/webcomponents/spec/imports/
 
   var thisDoc = document._currentScript.ownerDocument;
@@ -33,7 +34,10 @@
   pathString = function(values, width, height) {
     var space = width / (values.length - 1),
         y = scale([Math.min.apply({},values), Math.max.apply({},values)], [height,0]);
-    return "M0," + height + " "  + values.map(function(d,i) { return 'L' + (space*i) + ',' + y(d)}).join(' ');
+    return "M0," + height + " "  + 
+      values.map(function(d,i) { 
+        return 'L' + (space*i) + ',' + y(d);
+      }).join(' ');
   }
   sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
