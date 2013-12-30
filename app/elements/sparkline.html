@@ -34,7 +34,7 @@
   pathString = function(values, width, height) {
     var space = width / (values.length - 1),
         y = scale([Math.min.apply({},values), Math.max.apply({},values)], [height,0]);
-    return "M0," + height + " "  + 
+    return "M0," + y(values[0]) + " "  + 
       values.map(function(d,i) { 
         return 'L' + (space*i) + ',' + y(d);
       }).join(' ');
