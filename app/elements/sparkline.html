@@ -29,7 +29,7 @@
   // This replaces a really terrible use of doc.HTMLImports.documents
   // http://w3c.github.io/webcomponents/spec/imports/
 
-  var thisDoc = document._currentScript.ownerDocument;
+  thisDoc = document._currentScript.ownerDocument;
 
   pathString = function(values, width, height) {
     var space = width / (values.length - 1),
@@ -43,7 +43,7 @@
     createdCallback: {
       value: function() {
         var t = thisDoc.querySelector('#sparkline').content,
-          path = "", root = this.createShadowRoot(), line,
+          root = this.createShadowRoot(), line,
           data = this.getAttribute("data").split(/\s+/).map(function(d) {
             return parseFloat(d);
           });
@@ -52,13 +52,25 @@
         line.setAttribute("d", pathString(data, 80, 20));
         root.appendChild(t);
       }
+    },
+    attributeChangedCallback: {
+      value: function(attr, oldVal, newVal) {
+        var root = this.shadowRoot, line,
+          data = newVal.split(/\s+/).map(function(d) {
+            return parseFloat(d);
+          });
+
+        line = root.querySelector(".line");
+        line.setAttribute("d", pathString(data, 80, 20));
+      }
     }
   });
 
-  Object.defineProperty(sparkProto, "data", {value : "",
-                                              writable : true,
-                                              enumerable : true,
-                                              configurable : true});
+  Object.defineProperty(sparkProto, "data", 
+      { value : "",
+        writable : true,
+        enumerable : true,
+        configurable : true});
 
   Spark = document.register('dw-sparkline',{
     prototype: sparkProto

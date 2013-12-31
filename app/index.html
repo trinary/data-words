@@ -14,12 +14,24 @@
     <div class="container">
       <h1>Data Words</h1>
       <p>
-      This is a sparkline: <dw-sparkline data="50 40 30 40 20 10 50 80 20"></dw-sparkline> it is a data word that you can use inline with your text to display a series of connected, sequential values.
+      This is a sparkline: <dw-sparkline class="example" data="50 40 30 40 20 10 50 80 20"></dw-sparkline> it is a data word that you can use inline with your text to display a series of connected, sequential values.
+      </p>
+      <p>
+      <button onClick="updateSpark()">Update</button>
       </p>
     </div>
 
     <!-- build:js scripts/vendor.js -->
     <script src="bower_components/platform/platform.js"></script>
+    <script>
+function updateSpark() {
+  var values = [], spark = document.querySelector("dw-sparkline.example");
+  for (var i = 0; i < 10; i++) {
+    values.push(Math.random() * 30);
+  }
+  spark.setAttribute("data", values.join(" "));
+}
+    </script>
 
     <!-- endbuild -->
   </body>
