@@ -1,0 +1,72 @@
+<template id="bars">
+  <style>
+    :host {
+      display: inline;
+    }
+    svg {
+      width: 80px;
+      height: 20px;
+    }
+    .line {
+      fill: #999;
+      stroke: #333;
+      shape-rendering: crispedges; 
+    }
+  </style>
+  <svg></svg>
+</template>
+
+<script>
+  var scale = function(domain, range) {
+    return function(v) { 
+      var s = ((range[1] - range[0]) / (domain[1] - domain[0]))
+      return (v * s) + (range[0] - (s * domain[0]));
+    }
+  }, thisDoc, pathString, barProto, Bars;
+
+  // TODO: _currentScript is Polymer-polyfill only.
+  // The polyfill breaks the published spec, where currentScript 
+  // in imported docs is always null.
+  // This replaces a really terrible use of doc.HTMLImports.documents
+  // http://w3c.github.io/webcomponents/spec/imports/
+
+  var thisDoc = HTMLImports.currentScript.ownerDocument;
+
+  barProto = Object.create(HTMLElement.prototype, {
+    createdCallback: {
+      value: function() {
+        var root = this.createShadowRoot(), i,
+            t = thisDoc.querySelector('#bars').content,
+          rect, svg, data = this.getAttribute("data").split(/\s+/).map(function(d) {
+            return parseFloat(d);
+          });
+
+        svg = t.querySelector("svg");
+        for (i = 0; i < data.length; i++) {
+          rect = document.createElement("rect");
+          rect.setAttribute("x", 10);
+          rect.setAttribute("y", 10);
+          rect.setAttribute("width", 10);
+          rect.setAttribute("height", 10);
+          svg.appendChild(rect);
+          console.log(rect);
+        }
+        root.appendChild(t);
+      }
+    },
+    attributeChangedCallback: {
+      value: function(attr, oldVal, newVal) {
+      }
+    }
+  });
+
+  Object.defineProperty(barProto, "data", 
+      { value : "",
+        writable : true,
+        enumerable : true,
+        configurable : true});
+
+  Bars = document.register('dw-bars',{
+    prototype: barProto
+  });
+</script>
