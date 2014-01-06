@@ -2,12 +2,13 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title></title>
-    <meta name="description" content="">
+    <title>Data Words</title>
+    <meta name="description" content="Data Words">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- Place your HTML imports here -->
+    <link rel="import" href="elements/bars.html">
     <link rel="import" href="elements/sparkline.html">
   </head>
   <body>
@@ -17,19 +18,30 @@
       This is a sparkline: <dw-sparkline class="example" data="50 40 30 40 20 10 50 80 20"></dw-sparkline> it is a data word that you can use inline with your text to display a series of connected, sequential values.
       </p>
       <p>
-      <button onClick="updateSpark()">Update</button>
+      <button onClick="updateWord('dw-sparkline.example')">Update</button>
+      </p>
+      <p>
+      This is a bar chart: <dw-bars class="example" data="50 40 30 40 20 10 50 80 20"></dw-bars> it is a data word that you can use inline with your text to display a series of connected, sequential values.
+      </p>
+      <p>
+      <button onClick="updateWord('dw-bars.example')">Update</button>
       </p>
     </div>
 
     <!-- build:js scripts/vendor.js -->
     <script src="bower_components/platform/platform.js"></script>
     <script>
-function updateSpark() {
-  var values = [], spark = document.querySelector("dw-sparkline.example");
-  for (var i = 0; i < 10; i++) {
+function genData(n) {
+  var values = [];
+  for (var i = 0; i < n; i++) {
     values.push(Math.random() * 30);
   }
-  spark.setAttribute("data", values.join(" "));
+  return values;
+}
+
+function updateWord(sel) {
+  var word = document.querySelector(sel);
+  word.setAttribute("data", genData(10).join(" "));
 }
     </script>
 
