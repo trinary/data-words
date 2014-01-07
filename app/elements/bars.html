@@ -25,12 +25,10 @@
   }, thisDoc, pathString, barProto, Bars;
 
   // TODO: _currentScript is Polymer-polyfill only.
-  // The polyfill breaks the published spec, where currentScript 
-  // in imported docs is always null.
   // This replaces a really terrible use of doc.HTMLImports.documents
   // http://w3c.github.io/webcomponents/spec/imports/
 
-  var thisDoc = HTMLImports.currentScript.ownerDocument;
+  thisDoc = document._currentScript.ownerDocument;
 
   barProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
