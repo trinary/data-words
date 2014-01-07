@@ -23,13 +23,13 @@
       var s = ((range[1] - range[0]) / (domain[1] - domain[0]))
       return (v * s) + (range[0] - (s * domain[0]));
     }
-  }, thisDoc, pathString, sparkProto, Spark;
+  }, templateContent, pathString, sparkProto, Spark;
 
   // TODO: _currentScript is Polymer-polyfill only.
   // This replaces a really terrible use of doc.HTMLImports.documents
   // http://w3c.github.io/webcomponents/spec/imports/
 
-  thisDoc = document._currentScript.ownerDocument;
+  templateContent = document._currentScript.ownerDocument.querySelector("#sparkline").content;
 
   pathString = function(values, width, height) {
     var space = width / (values.length - 1),
@@ -42,15 +42,14 @@
   sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
-        var t = thisDoc.querySelector('#sparkline').content,
-          root = this.createShadowRoot(), line,
+        var root = this.createShadowRoot(), line,
           data = this.getAttribute("data").split(/\s+/).map(function(d) {
             return parseFloat(d);
           });
 
-        line = t.querySelector(".line");
+        line = templateContent.querySelector(".line");
         line.setAttribute("d", pathString(data, 80, 20));
-        root.appendChild(t);
+        root.appendChild(templateContent);
       }
     },
     attributeChangedCallback: {
