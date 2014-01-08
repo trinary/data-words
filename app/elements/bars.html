@@ -15,6 +15,7 @@
       shape-rendering: crispedges; 
     }
   </style>
+  <svg></svg>
 </template>
 
 <script>
@@ -38,21 +39,22 @@
           rect, svg, data = this.getAttribute("data").split(/\s+/).map(function(d) {
             return parseFloat(d);
           });
+        var space = 80 / (data.length),
+        y = scale([Math.min.apply({},data), 
+            Math.max.apply({},data)], [20,0]);
 
-        svg = document.createElement("svg");
-        console.log(templateContent.children);
-
-        for (i = 0; i < data.length; i++) {
-          rect = document.createElement("rect");
-          rect.setAttribute("x", 10);
-          rect.setAttribute("y", 10);
-          rect.setAttribute("width", 10);
-          rect.setAttribute("height", 10);
-          console.log(svg, rect);
-          svg.appendChild(rect);
+        svg = templateContent.querySelector("svg");
+        if (svg) {
+          for (i = 0; i < data.length; i++) {
+            rect = document.createElement("rect");
+            rect.setAttribute("x", space * i);
+            rect.setAttribute("y", 1);
+            rect.setAttribute("width", space - 1);
+            rect.setAttribute("height", 5);
+            svg.appendChild(rect);
+            root.appendChild(templateContent);
+          }
         }
-        templateContent.appendChild(svg);
-        root.appendChild(templateContent);
       }
     },
     attributeChangedCallback: {

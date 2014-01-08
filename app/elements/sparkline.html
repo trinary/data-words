@@ -29,16 +29,19 @@
   // This replaces a really terrible use of doc.HTMLImports.documents
   // http://w3c.github.io/webcomponents/spec/imports/
 
-  templateContent = document._currentScript.ownerDocument.querySelector("#sparkline").content;
+  templateContent = document._currentScript.ownerDocument
+    .querySelector("#sparkline").content;
 
   pathString = function(values, width, height) {
     var space = width / (values.length - 1),
-        y = scale([Math.min.apply({},values), Math.max.apply({},values)], [height,0]);
+        y = scale([Math.min.apply({},values), 
+            Math.max.apply({},values)], [height,0]);
     return "M0," + y(values[0]) + " "  + 
       values.map(function(d,i) { 
         return 'L' + (space*i) + ',' + y(d);
       }).join(' ');
   }
+
   sparkProto = Object.create(HTMLElement.prototype, {
     createdCallback: {
       value: function() {
@@ -48,8 +51,11 @@
           });
 
         line = templateContent.querySelector(".line");
-        line.setAttribute("d", pathString(data, 80, 20));
-        root.appendChild(templateContent);
+        // For some reason this gets called 5 times.
+        if (line) {
+          line.setAttribute("d", pathString(data, 80, 20));
+          root.appendChild(templateContent);
+        }
       }
     },
     attributeChangedCallback: {
