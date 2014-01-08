@@ -12,7 +12,7 @@
     rect {
       fill: #999;
       stroke: #333;
-      shape-rendering: crispedges; 
+      shape-rendering: crispedges;
     }
   </style>
   <svg></svg>
@@ -48,12 +48,12 @@
           for (i = 0; i < data.length; i++) {
             rect = document.createElement("rect");
             rect.setAttribute("x", space * i);
-            rect.setAttribute("y", 1);
+            rect.setAttribute("y", y(data[i]));
             rect.setAttribute("width", space - 1);
-            rect.setAttribute("height", 5);
+            rect.setAttribute("height", 21 - y(data[i]));
             svg.appendChild(rect);
-            root.appendChild(templateContent);
           }
+          root.appendChild(templateContent);
         }
       }
     },
